@@ -28,3 +28,11 @@ export const AddButton = styled.button`
   border-radius: 6px;
   cursor: pointer;
 `;
+
+export const AlertsSection = styled.section`
+  margin-top: 40px;
+
+  h2 {
+    margin-bottom: 16px;
+  }
+`;
