@@ -35,4 +35,26 @@ export const StatusDot = styled.div<{ color: string }>`
 export const Info = styled.div`
   padding: 10px;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const Actions = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const Button = styled.button<{ danger?: boolean }>`
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: ${({ danger }) => (danger ? '#ff4d4f' : '#1890ff')};
+  color: #fff;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;

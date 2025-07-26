@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Camera, CameraStatus } from '../../data/cameras';
 import * as Styled from './styles'
 import { v4 as uuidv4 } from 'uuid';
@@ -7,9 +7,11 @@ type AddCameraModalProps = {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (camera: Camera) => void;
-}
+    editingCamera?: Camera | null;
+};
 
-export default function AddCameraModal({ isOpen, onClose, onSubmit }: AddCameraModalProps) {
+
+export default function AddCameraModal({ isOpen, onClose, onSubmit, editingCamera }: AddCameraModalProps) {
     const [form, setForm] = useState({
         name: '',
         videoUrl: '',
@@ -17,6 +19,26 @@ export default function AddCameraModal({ isOpen, onClose, onSubmit }: AddCameraM
         longitude: '',
         status: 'online' as CameraStatus,
     });
+
+    useEffect(() => {
+        if (editingCamera) {
+            setForm({
+                name: editingCamera.name,
+                videoUrl: editingCamera.videoUrl,
+                latitude: editingCamera.latitude.toString(),
+                longitude: editingCamera.longitude.toString(),
+                status: editingCamera.status,
+            });
+        } else {
+            setForm({
+                name: '',
+                videoUrl: '',
+                latitude: '',
+                longitude: '',
+                status: 'online',
+            });
+        }
+    }, [editingCamera, isOpen]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setForm((prev) => ({
@@ -27,7 +49,7 @@ export default function AddCameraModal({ isOpen, onClose, onSubmit }: AddCameraM
 
     const handleSubmit = () => {
         const newCamera: Camera = {
-            id: uuidv4(),
+            id: editingCamera ? editingCamera.id : uuidv4(),
             name: form.name,
             videoUrl: form.videoUrl,
             latitude: parseFloat(form.latitude),
@@ -36,7 +58,6 @@ export default function AddCameraModal({ isOpen, onClose, onSubmit }: AddCameraM
         };
         onSubmit(newCamera);
         onClose();
-        setForm({ name: '', videoUrl: '', latitude: '', longitude: '', status: 'online' });
     };
 
     if (!isOpen) return null;
@@ -44,7 +65,7 @@ export default function AddCameraModal({ isOpen, onClose, onSubmit }: AddCameraM
     return (
         <Styled.Overlay>
             <Styled.Modal>
-                <h3>Adicionar Nova Câmera</h3>
+                <h3>{editingCamera ? 'Editar Câmera' : 'Adicionar Nova Câmera'}</h3>
 
                 <Styled.Field>
                     <Styled.Label>Nome</Styled.Label>

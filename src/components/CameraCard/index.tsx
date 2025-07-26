@@ -1,11 +1,13 @@
 import { Camera } from '../../data/cameras';
-import * as Styled from './styles'
+import * as Styled from './styles';
 
 type CameraCardProps = {
     camera: Camera;
-}
+    onEdit: (camera: Camera) => void;
+    onDelete: (id: string) => void;
+};
 
-export default function CameraCard({ camera }: CameraCardProps) {
+export default function CameraCard({ camera, onEdit, onDelete }: CameraCardProps) {
     const statusColor = {
         online: 'green',
         offline: 'red',
@@ -20,7 +22,11 @@ export default function CameraCard({ camera }: CameraCardProps) {
             </Styled.VideoWrapper>
             <Styled.Info>
                 <strong>{camera.name}</strong>
+                <Styled.Actions>
+                    <Styled.Button onClick={() => onEdit(camera)}>Editar</Styled.Button>
+                    <Styled.Button danger onClick={() => onDelete(camera.id)}>Remover</Styled.Button>
+                </Styled.Actions>
             </Styled.Info>
         </Styled.Card>
-    )
+    );
 }
