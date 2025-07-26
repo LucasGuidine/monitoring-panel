@@ -16,8 +16,9 @@ export const Title = styled.h2`
 
 export const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  margin-bottom: 20px;
 `;
 
 export const AddButton = styled.button`
@@ -35,4 +36,14 @@ export const AlertsSection = styled.section`
   h2 {
     margin-bottom: 16px;
   }
+`;
+
+export const AnalyticsButton = styled.button`
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
 `;

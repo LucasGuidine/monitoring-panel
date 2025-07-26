@@ -4,11 +4,13 @@ import CameraCard from "../../components/CameraCard";
 import { Camera, mockCameras } from "../../data/cameras";
 import * as Styled from "./styles";
 import AlertsList from "../../components/AlertsList";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [cameras, setCameras] = useState<Camera[]>(mockCameras);
   const [showModal, setShowModal] = useState(false);
   const [editingCamera, setEditingCamera] = useState<Camera | null>(null);
+  const navigate = useNavigate();
 
   const handleAddOrEditCamera = (camera: Camera) => {
     if (editingCamera) {
@@ -37,8 +39,10 @@ export default function Dashboard() {
         onSubmit={handleAddOrEditCamera}
         editingCamera={editingCamera}
       />
+
+      <Styled.Title>Grid de Câmeras</Styled.Title>
+
       <Styled.Header>
-        <Styled.Title>Grid de Câmeras</Styled.Title>
         <Styled.AddButton
           onClick={() => {
             setEditingCamera(null);
@@ -47,7 +51,12 @@ export default function Dashboard() {
         >
           + Adicionar Câmera
         </Styled.AddButton>
+
+        <Styled.AnalyticsButton onClick={() => navigate("/analytics")}>
+          Ver Estatísticas
+        </Styled.AnalyticsButton>
       </Styled.Header>
+
       <Styled.Grid>
         {cameras.map((camera) => (
           <CameraCard
