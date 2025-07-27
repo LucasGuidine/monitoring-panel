@@ -5,12 +5,14 @@ type CameraCardProps = {
   camera: Camera;
   onEdit: (camera: Camera) => void;
   onDelete: (id: string) => void;
+  onClick?: () => void;
 };
 
 export default function CameraCard({
   camera,
   onEdit,
   onDelete,
+  onClick,
 }: CameraCardProps) {
   const statusColor = {
     online: "green",
@@ -21,7 +23,13 @@ export default function CameraCard({
   return (
     <Styled.Card>
       <Styled.VideoWrapper>
-        <Styled.StyledVideo src={camera.videoUrl} autoPlay muted loop />
+        <Styled.StyledVideo
+          src={camera.videoUrl}
+          autoPlay
+          muted
+          loop
+          onClick={onClick}
+        />
         <Styled.StatusDot color={statusColor} />
       </Styled.VideoWrapper>
       <Styled.Info>

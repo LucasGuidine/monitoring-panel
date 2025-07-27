@@ -13,12 +13,17 @@ export const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
+  cursor: pointer;
 `;
 
 export const StyledVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 export const StatusDot = styled.div<{ color: string }>`

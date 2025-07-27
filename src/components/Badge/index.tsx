@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 import * as Styled from "./styles";
 
+type BadgeVariant = "default" | "destructive" | "online" | "offline" | "alert";
+
 type BadgeProps = {
   children: ReactNode;
-  variant?: "default" | "destructive";
+  variant?: BadgeVariant;
 };
 
 export default function Badge({ children, variant = "default" }: BadgeProps) {

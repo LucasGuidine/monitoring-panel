@@ -9,10 +9,22 @@ const variants = {
     background-color: #f87171;
     color: white;
   `,
+  online: css`
+    background-color: green;
+    color: white;
+  `,
+  offline: css`
+    background-color: red;
+    color: white;
+  `,
+  alert: css`
+    background-color: orange;
+    color: white;
+  `,
 };
 
 export const BadgeContainer = styled.span<{
-  variant?: "default" | "destructive";
+  variant?: keyof typeof variants;
 }>`
   display: inline-flex;
   align-items: center;

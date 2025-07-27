@@ -64,6 +64,7 @@ export default function Dashboard() {
             camera={camera}
             onEdit={handleEditCamera}
             onDelete={handleDeleteCamera}
+            onClick={() => navigate(`/camera/${camera.id}`)}
           />
         ))}
       </Styled.Grid>
