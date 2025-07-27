@@ -3,19 +3,22 @@ import { Alert, alerts } from "../../data/alerts";
 import Badge from "../Badge";
 import * as Styled from "./styles";
 import moment from "moment";
+import { mockCameras } from "../../data/cameras";
 
 export default function AlertsList() {
   return (
     <Styled.AlertsWrapper>
       {alerts.map((alert: Alert) => (
         <Styled.Container key={alert.id}>
-          <Styled.CardImage
-            src={alert.imageUrl}
-            alt={`${alert.type} - ${alert.cameraName}`}
-          />
+          <Styled.CardImage src={alert.imageUrl} alt={alert.type} />
           <Styled.Content>
             <Styled.CardHeader>
-              <Styled.CameraName>{alert.cameraName}</Styled.CameraName>
+              <Styled.CameraName>
+                {
+                  mockCameras.find((camera) => camera.id === alert.cameraId)
+                    ?.name
+                }
+              </Styled.CameraName>
               <Badge
                 variant={alert.type === "Invasão" ? "destructive" : "default"}
               >

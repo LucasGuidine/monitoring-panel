@@ -14,6 +14,7 @@ import { useMemo } from "react";
 import { alerts } from "../../data/alerts";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { mockCameras } from "../../data/cameras";
 
 const COLORS = ["#f87171", "#facc15", "#4ade80"];
 
@@ -29,7 +30,10 @@ export default function Analytics() {
 
   const alertsByCamera = useMemo(() => {
     return alerts.reduce((acc: Record<string, number>, alert) => {
-      acc[alert.cameraName] = (acc[alert.cameraName] || 0) + 1;
+      const camera = mockCameras.find((c) => c.id === alert.cameraId);
+      const cameraName = camera ? camera.name : "Câmera Desconhecida";
+
+      acc[cameraName] = (acc[cameraName] || 0) + 1;
       return acc;
     }, {});
   }, []);
