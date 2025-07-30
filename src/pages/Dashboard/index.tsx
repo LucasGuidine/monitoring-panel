@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AddCameraModal from "../../components/AddCameraModal";
+import AddCameraModal from "../../components/CameraFormModal";
 import CameraCard from "../../components/CameraCard";
 import { Camera } from "../../data/cameras";
 import * as Styled from "./styles";
@@ -72,9 +72,9 @@ export default function Dashboard() {
       <AddCameraModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        onSubmit={handleAddOrEditCamera}
-        editingCamera={editingCamera}
-        loading={addOrUpdateCameraLoading}
+        onSaveCamera={handleAddOrEditCamera}
+        cameraToEdit={editingCamera}
+        isLoading={addOrUpdateCameraLoading}
       />
 
       <Styled.Title>Grid de Câmeras</Styled.Title>

@@ -4,21 +4,21 @@ import * as Styled from "./styles";
 import { v4 as uuidv4 } from "uuid";
 import Loader from "../Loader";
 
-type AddCameraModalProps = {
+type CameraFormModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (camera: Camera) => void;
-  editingCamera?: Camera | null;
-  loading: boolean;
+  onSaveCamera: (camera: Camera) => void;
+  cameraToEdit?: Camera | null;
+  isLoading: boolean;
 };
 
-export default function AddCameraModal({
+export default function CameraFormModal({
   isOpen,
   onClose,
-  onSubmit,
-  editingCamera,
-  loading,
-}: AddCameraModalProps) {
+  onSaveCamera,
+  cameraToEdit,
+  isLoading,
+}: CameraFormModalProps) {
   const [form, setForm] = useState({
     name: "",
     videoUrl: "",
@@ -28,13 +28,13 @@ export default function AddCameraModal({
   });
 
   useEffect(() => {
-    if (editingCamera) {
+    if (cameraToEdit) {
       setForm({
-        name: editingCamera.name,
-        videoUrl: editingCamera.videoUrl,
-        latitude: editingCamera.latitude.toString(),
-        longitude: editingCamera.longitude.toString(),
-        status: editingCamera.status,
+        name: cameraToEdit.name,
+        videoUrl: cameraToEdit.videoUrl,
+        latitude: cameraToEdit.latitude.toString(),
+        longitude: cameraToEdit.longitude.toString(),
+        status: cameraToEdit.status,
       });
     } else {
       setForm({
@@ -45,9 +45,9 @@ export default function AddCameraModal({
         status: "online",
       });
     }
-  }, [editingCamera, isOpen]);
+  }, [cameraToEdit, isOpen]);
 
-  const handleChange = (
+  const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setForm((prev) => ({
@@ -56,16 +56,16 @@ export default function AddCameraModal({
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSave = () => {
     const newCamera: Camera = {
-      id: editingCamera ? editingCamera.id : uuidv4(),
+      id: cameraToEdit ? cameraToEdit.id : uuidv4(),
       name: form.name,
       videoUrl: form.videoUrl,
       latitude: parseFloat(form.latitude),
       longitude: parseFloat(form.longitude),
       status: form.status,
     };
-    onSubmit(newCamera);
+    onSaveCamera(newCamera);
   };
 
   if (!isOpen) return null;
@@ -73,9 +73,9 @@ export default function AddCameraModal({
   return (
     <Styled.Overlay>
       <Styled.Modal>
-        <h3>{editingCamera ? "Editar Câmera" : "Adicionar Nova Câmera"}</h3>
+        <h3>{cameraToEdit ? "Editar Câmera" : "Adicionar Nova Câmera"}</h3>
 
-        {loading ? (
+        {isLoading ? (
           <Loader />
         ) : (
           <>
@@ -84,7 +84,7 @@ export default function AddCameraModal({
               <Styled.Input
                 name="name"
                 value={form.name}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Styled.Field>
 
@@ -93,7 +93,7 @@ export default function AddCameraModal({
               <Styled.Input
                 name="videoUrl"
                 value={form.videoUrl}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Styled.Field>
 
@@ -102,7 +102,7 @@ export default function AddCameraModal({
               <Styled.Input
                 name="latitude"
                 value={form.latitude}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Styled.Field>
 
@@ -111,7 +111,7 @@ export default function AddCameraModal({
               <Styled.Input
                 name="longitude"
                 value={form.longitude}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Styled.Field>
 
@@ -120,7 +120,7 @@ export default function AddCameraModal({
               <Styled.Select
                 name="status"
                 value={form.status}
-                onChange={handleChange}
+                onChange={handleInputChange}
               >
                 <option value="online">Online</option>
                 <option value="offline">Offline</option>
@@ -132,7 +132,7 @@ export default function AddCameraModal({
               <Styled.CancelButton onClick={onClose}>
                 Cancelar
               </Styled.CancelButton>
-              <Styled.Button onClick={handleSubmit}>Salvar</Styled.Button>
+              <Styled.Button onClick={handleSave}>Salvar</Styled.Button>
             </Styled.Buttons>
           </>
         )}
