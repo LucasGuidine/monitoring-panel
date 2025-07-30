@@ -1,11 +1,16 @@
 import { AlertCircle, ShieldAlert } from "lucide-react";
-import { Alert, alerts } from "../../data/alerts";
+import { Alert } from "../../data/alerts";
 import Badge from "../Badge";
 import * as Styled from "./styles";
 import moment from "moment";
-import { mockCameras } from "../../data/cameras";
+import { Camera } from "../../data/cameras";
 
-export default function AlertsList() {
+type AlertsListProps = {
+  cameras: Camera[];
+  alerts: Alert[];
+};
+
+export default function AlertsList({ cameras, alerts }: AlertsListProps) {
   return (
     <Styled.AlertsWrapper>
       {alerts.map((alert: Alert) => (
@@ -14,10 +19,7 @@ export default function AlertsList() {
           <Styled.Content>
             <Styled.CardHeader>
               <Styled.CameraName>
-                {
-                  mockCameras.find((camera) => camera.id === alert.cameraId)
-                    ?.name
-                }
+                {cameras.find((camera) => camera.id === alert.cameraId)?.name}
               </Styled.CameraName>
               <Badge
                 variant={alert.type === "Invasão" ? "destructive" : "default"}
