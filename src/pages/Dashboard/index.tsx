@@ -4,7 +4,12 @@ import { Camera } from "../../data/cameras";
 import * as Styled from "./styles";
 import AlertsList from "../../components/AlertsList";
 import { useNavigate } from "react-router-dom";
-import { addCamera, editCamera, fetchCameras } from "../../mockApi/cameraApi";
+import {
+  addCamera,
+  deleteCamera,
+  editCamera,
+  fetchCameras,
+} from "../../mockApi/cameraApi";
 import Loader from "../../components/Loader";
 import { Alert } from "../../data/alerts";
 import { fetchAlerts } from "../../mockApi/alertsApi";
@@ -17,6 +22,7 @@ export default function Dashboard() {
   const [editingCamera, setEditingCamera] = useState<Camera | null>(null);
   const [listCamerasLoading, setListCamerasLoading] = useState(false);
   const [listAlertsLoading, setListAlertsLoading] = useState(false);
+  const [deletingCameraLoading, setDeletingCameraLoading] = useState(false);
   const [addOrUpdateCameraLoading, setAddOrUpdateCameraLoading] =
     useState(false);
   const navigate = useNavigate();
@@ -39,8 +45,11 @@ export default function Dashboard() {
     setShowModal(false);
   };
 
-  const handleDeleteCamera = (id: string) => {
+  const handleDeleteCamera = async (id: string) => {
+    setDeletingCameraLoading(true);
+    await deleteCamera(id);
     setCameras((prev) => prev.filter((camera) => camera.id !== id));
+    setDeletingCameraLoading(false);
   };
 
   const handleEditCamera = (camera: Camera) => {
@@ -94,7 +103,7 @@ export default function Dashboard() {
         </Styled.AnalyticsButton>
       </Styled.Header>
 
-      {listCamerasLoading || listAlertsLoading ? (
+      {listCamerasLoading || listAlertsLoading || deletingCameraLoading ? (
         <Loader />
       ) : (
         <>

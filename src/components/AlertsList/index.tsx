@@ -19,7 +19,8 @@ export default function AlertsList({ cameras, alerts }: AlertsListProps) {
           <Styled.Content>
             <Styled.CardHeader>
               <Styled.CameraName>
-                {cameras.find((camera) => camera.id === alert.cameraId)?.name}
+                {cameras.find((camera) => camera.id === alert.cameraId)?.name ??
+                  "câmera não encontrada"}
               </Styled.CameraName>
               <Badge
                 variant={alert.type === "Invasão" ? "destructive" : "default"}
