@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import AddCameraModal from "../../components/CameraFormModal";
-import CameraCard from "../../components/CameraCard";
 import { Camera } from "../../data/cameras";
 import * as Styled from "./styles";
 import AlertsList from "../../components/AlertsList";
@@ -9,6 +8,7 @@ import { addCamera, editCamera, fetchCameras } from "../../mockApi/cameraApi";
 import Loader from "../../components/Loader";
 import { Alert } from "../../data/alerts";
 import { fetchAlerts } from "../../mockApi/alertsApi";
+import CameraList from "../../components/CamerasList";
 
 export default function Dashboard() {
   const [cameras, setCameras] = useState<Camera[]>([]);
@@ -99,15 +99,11 @@ export default function Dashboard() {
       ) : (
         <>
           <Styled.Grid>
-            {cameras.map((camera) => (
-              <CameraCard
-                key={camera.id}
-                camera={camera}
-                onEdit={handleEditCamera}
-                onDelete={handleDeleteCamera}
-                onClick={() => navigate(`/camera/${camera.id}`)}
-              />
-            ))}
+            <CameraList
+              cameras={cameras}
+              handleDeleteCamera={handleDeleteCamera}
+              handleEditCamera={handleEditCamera}
+            />
           </Styled.Grid>
 
           <Styled.AlertsSection>
