@@ -90,3 +90,34 @@ export const AlertCard = styled.div`
     }
   }
 `;
+
+export const EditButton = styled.button<{ active?: boolean }>`
+  margin: 8px 0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: ${(props) => (props.active ? "#d32f2f" : "#1976d2")};
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: ${(props) => (props.active ? "#b71c1c" : "#115293")};
+  }
+`;
+
+export const ClearButton = styled.button`
+  margin-left: 1rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #e04c4c;
+  }
+`;
