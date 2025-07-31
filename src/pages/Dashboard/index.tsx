@@ -26,6 +26,30 @@ export default function Dashboard() {
   const [addOrUpdateCameraLoading, setAddOrUpdateCameraLoading] =
     useState(false);
   const navigate = useNavigate();
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
+  const [selectedCameraId, setSelectedCameraId] = useState<string>("");
+  const [selectedAlertType, setSelectedAlertType] = useState<string>("");
+
+  const filteredAlerts = alerts.filter((alert) => {
+    const isWithinDateRange =
+      (!startDate || new Date(alert.timestamp) >= new Date(startDate)) &&
+      (!endDate || new Date(alert.timestamp) <= new Date(endDate));
+
+    const matchesCamera =
+      !selectedCameraId || alert.cameraId === selectedCameraId;
+
+    const matchesType = !selectedAlertType || alert.type === selectedAlertType;
+
+    return isWithinDateRange && matchesCamera && matchesType;
+  });
+
+  const clearFilters = () => {
+    setStartDate("");
+    setEndDate("");
+    setSelectedCameraId("");
+    setSelectedAlertType("");
+  };
 
   const handleAddOrEditCamera = async (camera: Camera) => {
     setAddOrUpdateCameraLoading(true);
@@ -116,8 +140,59 @@ export default function Dashboard() {
           </Styled.Grid>
 
           <Styled.AlertsSection>
+            <Styled.FiltersWrapper>
+              <label>
+                Início:
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </label>
+
+              <label>
+                Fim:
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </label>
+
+              <label>
+                Câmera:
+                <select
+                  value={selectedCameraId}
+                  onChange={(e) => setSelectedCameraId(e.target.value)}
+                >
+                  <option value="">Todas</option>
+                  {cameras.map((camera) => (
+                    <option key={camera.id} value={camera.id}>
+                      {camera.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                Tipo:
+                <select
+                  value={selectedAlertType}
+                  onChange={(e) => setSelectedAlertType(e.target.value)}
+                >
+                  <option value="">Todos</option>
+                  <option value="Invasão">Invasão</option>
+                  <option value="EPI">EPI</option>
+                </select>
+              </label>
+
+              <Styled.ClearButton onClick={clearFilters}>
+                Limpar Filtros
+              </Styled.ClearButton>
+            </Styled.FiltersWrapper>
+
             <h2>Alertas Recentes</h2>
-            <AlertsList cameras={cameras} alerts={alerts} />
+            <AlertsList cameras={cameras} alerts={filteredAlerts} />
           </Styled.AlertsSection>
         </>
       )}
