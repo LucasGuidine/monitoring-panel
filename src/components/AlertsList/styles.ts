@@ -34,6 +34,7 @@ export const Container = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   transition: 0.2s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.01);

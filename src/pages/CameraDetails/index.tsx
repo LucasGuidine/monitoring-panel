@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import * as Styled from "./styles";
 import { ArrowLeft } from "lucide-react";
 import { Camera } from "../../data/cameras";
@@ -32,6 +32,8 @@ export default function CameraDetails() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
   const [isEditMode, setIsEditMode] = useState(false);
+  const [searchParams] = useSearchParams();
+  const alertIdParam = searchParams.get("alertId");
 
   const cameraAlerts = alerts.filter((alert) => alert.cameraId === camera?.id);
 
@@ -224,17 +226,26 @@ export default function CameraDetails() {
               <p>Nenhum alerta relacionado a esta câmera.</p>
             ) : (
               <Styled.AlertsList>
-                {cameraAlerts.map((alert) => (
-                  <Styled.AlertCard key={alert.id}>
-                    <img src={alert.imageUrl} alt={alert.type} />
-                    <div>
-                      <strong>{alert.type}</strong>
-                      <p>
-                        {moment(alert.timestamp).format("DD/MM/YYYY HH:mm")}
-                      </p>
-                    </div>
-                  </Styled.AlertCard>
-                ))}
+                <Styled.AlertsList>
+                  {cameraAlerts.map((alert) => {
+                    const isHighlighted = alert.id === alertIdParam;
+
+                    return (
+                      <Styled.AlertCard
+                        key={alert.id}
+                        highlighted={isHighlighted}
+                      >
+                        <img src={alert.imageUrl} alt={alert.type} />
+                        <div>
+                          <strong>{alert.type}</strong>
+                          <p>
+                            {moment(alert.timestamp).format("DD/MM/YYYY HH:mm")}
+                          </p>
+                        </div>
+                      </Styled.AlertCard>
+                    );
+                  })}
+                </Styled.AlertsList>
               </Styled.AlertsList>
             )}
           </Styled.AlertsSection>

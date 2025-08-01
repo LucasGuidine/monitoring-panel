@@ -59,13 +59,15 @@ export const AlertsList = styled.div`
   gap: 1rem;
 `;
 
-export const AlertCard = styled.div`
+export const AlertCard = styled.div<{ highlighted?: boolean }>`
   display: flex;
   gap: 1rem;
-  background: #f9fafb;
+  background: ${(props) => (props.highlighted ? "#fff7ed" : "#f9fafb")};
   padding: 1rem;
   border-radius: 10px;
+  border: ${(props) => (props.highlighted ? "2px solid #f97316" : "none")};
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
 
   img {
     width: 100px;

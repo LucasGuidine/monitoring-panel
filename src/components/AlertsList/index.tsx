@@ -4,6 +4,7 @@ import Badge from "../Badge";
 import * as Styled from "./styles";
 import moment from "moment";
 import { Camera } from "../../data/cameras";
+import { useNavigate } from "react-router-dom";
 
 type AlertsListProps = {
   cameras: Camera[];
@@ -11,10 +12,17 @@ type AlertsListProps = {
 };
 
 export default function AlertsList({ cameras, alerts }: AlertsListProps) {
+  const navigate = useNavigate();
+
   return (
     <Styled.AlertsWrapper>
       {alerts.map((alert: Alert) => (
-        <Styled.Container key={alert.id}>
+        <Styled.Container
+          key={alert.id}
+          onClick={() =>
+            navigate(`/camera/${alert.cameraId}?alertId=${alert.id}`)
+          }
+        >
           <Styled.CardImage src={alert.imageUrl} alt={alert.type} />
           <Styled.Content>
             <Styled.CardHeader>
