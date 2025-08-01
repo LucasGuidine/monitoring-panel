@@ -14,6 +14,7 @@ import Loader from "../../components/Loader";
 import { Alert } from "../../data/alerts";
 import { fetchAlerts } from "../../mockApi/alertsApi";
 import CameraList from "../../components/CamerasList";
+import OccurrenceMap from "../../components/OccurrenceMap";
 
 export default function Dashboard() {
   const [cameras, setCameras] = useState<Camera[]>([]);
@@ -194,6 +195,9 @@ export default function Dashboard() {
             <h2>Alertas Recentes</h2>
             <AlertsList cameras={cameras} alerts={filteredAlerts} />
           </Styled.AlertsSection>
+
+          <h2>Mapa de Ccorrências</h2>
+          <OccurrenceMap alerts={alerts} cameras={cameras} />
         </>
       )}
     </Styled.Container>

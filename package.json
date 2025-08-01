@@ -12,11 +12,14 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "konva": "^9.3.22",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.526.0",
     "moment": "^2.30.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-konva": "^19.0.7",
+    "react-leaflet": "^5.0.0",
+    "react-leaflet-cluster": "2.1.0",
     "react-router-dom": "^7.7.1",
     "react-scripts": "5.0.1",
     "recharts": "^3.1.0",
@@ -48,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.20"
   }
 }

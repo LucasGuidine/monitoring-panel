@@ -32,6 +32,7 @@ export const AddButton = styled.button`
 
 export const AlertsSection = styled.section`
   margin-top: 40px;
+  margin-bottom: 40px;
 
   h2 {
     margin-bottom: 16px;
