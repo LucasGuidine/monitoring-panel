@@ -1,46 +1,79 @@
-# Getting Started with Create React App
+# 📹 Painel de Monitoramento com IA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este projeto é um painel de controle para um sistema de **monitoramento por vídeo com inteligência artificial**, desenvolvido em **React.js** com foco em interatividade, componentização e uma boa experiência de usuário (UX).
 
-## Available Scripts
+## 🚀 Funcionalidades
 
-In the project directory, you can run:
+- 📺 Visualização de múltiplos feeds de câmeras
+- 📍 Localização das câmeras via mapa interativo (Leaflet)
+- ✏️ Desenho de áreas sobre os vídeos (React-Konva)
+- ⚠️ Exibição de alertas de IA (EPI ausente, invasão, etc.)
+- 📊 Tela de estatísticas com gráficos e clustering de alertas
+- 🛠️ CRUD de câmeras simuladas com dados mockados
+- 🧠 Armazenamento local de áreas desenhadas por câmera (localStorage)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🧰 Tecnologias Utilizadas
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **React**
+- **TypeScript**
+- **styled-components**
+- **React Router DOM**
+- **React-Konva** – para desenho sobre vídeos
+- **Leaflet** – para o mapa interativo
+- **Recharts** – para gráficos
+- **uuid** – para IDs únicos simulados
+- **moment** – para manipulação de datas
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📦 Requisitos
 
-### `npm run build`
+- [Node.js 20.19.4](https://nodejs.org/)
+- [Yarn](https://classic.yarnpkg.com/) (gerenciador de dependências)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ▶️ Como Rodar o Projeto
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+# Clone o repositório
+git clone https://github.com/LucasGuidine/monitoring-panel.git
 
-### `npm run eject`
+# Acesse a pasta
+cd monitoring-panel
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Instale as dependências
+yarn
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Inicie o servidor de desenvolvimento
+yarn start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+A aplicação estará disponível em:  
+👉 http://localhost:3000
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## 🧱 Estrutura do Projeto
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+src/
+├── components/          # Componentes reutilizáveis
+├── data/                # Tipos e mocks simulando backend
+├── mockApi/             # Funções simulando chamadas de API
+├── pages/               # Páginas principais do app (Dashboard, Detalhes etc)
+├── routes/              # Configuração de rotas
+├── hooks/               # Hooks personalizados para carregar e gerenciar dados
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+
+## 🧠 Decisões de Arquitetura
+
+- Separação clara entre **componentes**, **páginas**, **hooks** e **dados simulados**.
+- Uso de **React-Konva** para desenhar sobre `<video>`, persistindo por câmera no `localStorage`.
+- Design responsivo com **styled-components**.
+- Integração com mapas (Leaflet) para localização e visualização espacial dos alertas.
+- Sistema de rotas com **React Router DOM**, incluindo rota dinâmica `/cameras/:id`.
