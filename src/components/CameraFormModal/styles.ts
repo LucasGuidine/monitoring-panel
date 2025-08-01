@@ -27,10 +27,17 @@ export const Label = styled.label`
   margin-bottom: 4px;
 `;
 
-export const Input = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+export const Input = styled.input<{ hasError?: boolean }>`
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid ${({ hasError }) => (hasError ? "#e53935" : "#ccc")};
+  font-size: 0.95rem;
+  background-color: white;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ hasError }) => (hasError ? "#e53935" : "#007bff")};
+  }
 `;
 
 export const Select = styled.select`
@@ -56,4 +63,11 @@ export const Button = styled.button`
 
 export const CancelButton = styled(Button)`
   background: #aaa;
+`;
+
+export const Error = styled.span`
+  color: #e53935;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
 `;

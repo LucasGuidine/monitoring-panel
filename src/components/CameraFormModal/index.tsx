@@ -12,6 +12,13 @@ type CameraFormModalProps = {
   isLoading: boolean;
 };
 
+type FormErrors = {
+  name?: string;
+  videoUrl?: string;
+  latitude?: string;
+  longitude?: string;
+};
+
 export default function CameraFormModal({
   isOpen,
   onClose,
@@ -26,6 +33,8 @@ export default function CameraFormModal({
     longitude: "",
     status: "online" as CameraStatus,
   });
+
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     if (cameraToEdit) {
@@ -45,6 +54,7 @@ export default function CameraFormModal({
         status: "online",
       });
     }
+    setErrors({});
   }, [cameraToEdit, isOpen]);
 
   const handleInputChange = (
@@ -54,9 +64,43 @@ export default function CameraFormModal({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!form.name.trim()) {
+      newErrors.name = "Nome é obrigatório.";
+    }
+
+    if (!form.videoUrl.trim()) {
+      newErrors.videoUrl = "URL do vídeo é obrigatória.";
+    } else if (!/^https?:\/\/.+/.test(form.videoUrl)) {
+      newErrors.videoUrl = "URL inválida.";
+    }
+
+    const lat = parseFloat(form.latitude);
+    if (!form.latitude.trim()) {
+      newErrors.latitude = "Latitude é obrigatória.";
+    } else if (isNaN(lat) || lat < -90 || lat > 90) {
+      newErrors.latitude = "Latitude deve estar entre -90 e 90.";
+    }
+
+    const lon = parseFloat(form.longitude);
+    if (!form.longitude.trim()) {
+      newErrors.longitude = "Longitude é obrigatória.";
+    } else if (isNaN(lon) || lon < -180 || lon > 180) {
+      newErrors.longitude = "Longitude deve estar entre -180 e 180.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSave = () => {
+    if (!validateForm()) return;
+
     const newCamera: Camera = {
       id: cameraToEdit ? cameraToEdit.id : uuidv4(),
       name: form.name,
@@ -65,6 +109,7 @@ export default function CameraFormModal({
       longitude: parseFloat(form.longitude),
       status: form.status,
     };
+
     onSaveCamera(newCamera);
   };
 
@@ -85,7 +130,9 @@ export default function CameraFormModal({
                 name="name"
                 value={form.name}
                 onChange={handleInputChange}
+                hasError={!!errors.name}
               />
+              {errors.name && <Styled.Error>{errors.name}</Styled.Error>}
             </Styled.Field>
 
             <Styled.Field>
@@ -94,7 +141,11 @@ export default function CameraFormModal({
                 name="videoUrl"
                 value={form.videoUrl}
                 onChange={handleInputChange}
+                hasError={!!errors.videoUrl}
               />
+              {errors.videoUrl && (
+                <Styled.Error>{errors.videoUrl}</Styled.Error>
+              )}
             </Styled.Field>
 
             <Styled.Field>
@@ -103,7 +154,11 @@ export default function CameraFormModal({
                 name="latitude"
                 value={form.latitude}
                 onChange={handleInputChange}
+                hasError={!!errors.latitude}
               />
+              {errors.latitude && (
+                <Styled.Error>{errors.latitude}</Styled.Error>
+              )}
             </Styled.Field>
 
             <Styled.Field>
@@ -112,7 +167,11 @@ export default function CameraFormModal({
                 name="longitude"
                 value={form.longitude}
                 onChange={handleInputChange}
+                hasError={!!errors.longitude}
               />
+              {errors.longitude && (
+                <Styled.Error>{errors.longitude}</Styled.Error>
+              )}
             </Styled.Field>
 
             <Styled.Field>
