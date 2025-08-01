@@ -20,6 +20,7 @@ export const Card = styled.div`
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  grid-column: span 2;
 
   h3 {
     font-size: 1.1rem;

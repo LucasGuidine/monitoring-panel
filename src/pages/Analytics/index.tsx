@@ -161,7 +161,7 @@ export default function Analytics() {
           </Styled.GroupByButtons>
 
           <Styled.ChartsGrid>
-            <Styled.Card style={{ gridColumn: "span 2" }}>
+            <Styled.Card>
               <h3>Alertas ao Longo do Tempo</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={alertsByTime}>

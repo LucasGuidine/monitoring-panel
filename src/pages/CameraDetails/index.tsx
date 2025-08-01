@@ -168,20 +168,13 @@ export default function CameraDetails() {
             </Styled.ClearButton>
           )}
 
-          <div ref={containerRef} style={{ position: "relative" }}>
+          <Styled.VideoContainer ref={containerRef}>
             <Styled.Video ref={videoRef} controls>
               <source src={camera.videoUrl} type="video/mp4" />
               Seu navegador não suporta o vídeo.
             </Styled.Video>
 
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                pointerEvents: "none",
-              }}
-            >
+            <Styled.StageContainer>
               <Stage
                 width={videoSize.width}
                 height={videoSize.height}
@@ -208,8 +201,8 @@ export default function CameraDetails() {
                   )}
                 </Layer>
               </Stage>
-            </div>
-          </div>
+            </Styled.StageContainer>
+          </Styled.VideoContainer>
 
           <Styled.Info>
             <p>

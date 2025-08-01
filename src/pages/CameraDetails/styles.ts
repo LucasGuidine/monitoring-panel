@@ -123,3 +123,14 @@ export const ClearButton = styled.button`
     background-color: #e04c4c;
   }
 `;
+
+export const VideoContainer = styled.div`
+  position: relative;
+`;
+
+export const StageContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+`;
