@@ -1,28 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddCameraModal from "../../components/CameraFormModal";
 import { Camera } from "../../data/cameras";
 import * as Styled from "./styles";
 import AlertsList from "../../components/AlertsList";
 import { useNavigate } from "react-router-dom";
-import {
-  addCamera,
-  deleteCamera,
-  editCamera,
-  fetchCameras,
-} from "../../mockApi/cameraApi";
+import { addCamera, deleteCamera, editCamera } from "../../mockApi/cameraApi";
 import Loader from "../../components/Loader";
-import { Alert } from "../../data/alerts";
-import { fetchAlerts } from "../../mockApi/alertsApi";
 import CameraList from "../../components/CamerasList";
 import OccurrenceMap from "../../components/OccurrenceMap";
+import AlertsFilterPanel from "../../components/AlertsFilterPanel";
+import { useCameras } from "../../hooks/useCameras";
+import { useAlerts } from "../../hooks/useAlerts";
 
 export default function Dashboard() {
-  const [cameras, setCameras] = useState<Camera[]>([]);
-  const [alerts, setAlerts] = useState<Alert[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [editingCamera, setEditingCamera] = useState<Camera | null>(null);
-  const [listCamerasLoading, setListCamerasLoading] = useState(false);
-  const [listAlertsLoading, setListAlertsLoading] = useState(false);
   const [deletingCameraLoading, setDeletingCameraLoading] = useState(false);
   const [addOrUpdateCameraLoading, setAddOrUpdateCameraLoading] =
     useState(false);
@@ -31,6 +23,8 @@ export default function Dashboard() {
   const [endDate, setEndDate] = useState<string>("");
   const [selectedCameraId, setSelectedCameraId] = useState<string>("");
   const [selectedAlertType, setSelectedAlertType] = useState<string>("");
+  const { cameras, setCameras, loading: camerasLoading } = useCameras();
+  const { alerts, loading: alertsLoading } = useAlerts();
 
   const filteredAlerts = alerts.filter((alert) => {
     const isWithinDateRange =
@@ -82,25 +76,6 @@ export default function Dashboard() {
     setShowModal(true);
   };
 
-  const getCameras = async () => {
-    setListCamerasLoading(true);
-    const cameras = await fetchCameras();
-    setCameras(cameras);
-    setListCamerasLoading(false);
-  };
-
-  const getAlerts = async () => {
-    setListAlertsLoading(true);
-    const alerts = await fetchAlerts();
-    setAlerts(alerts);
-    setListAlertsLoading(false);
-  };
-
-  useEffect(() => {
-    getCameras();
-    getAlerts();
-  }, []);
-
   return (
     <Styled.Container>
       <AddCameraModal
@@ -128,7 +103,7 @@ export default function Dashboard() {
         </Styled.AnalyticsButton>
       </Styled.Header>
 
-      {listCamerasLoading || listAlertsLoading || deletingCameraLoading ? (
+      {camerasLoading || alertsLoading || deletingCameraLoading ? (
         <Loader />
       ) : (
         <>
@@ -141,56 +116,18 @@ export default function Dashboard() {
           </Styled.Grid>
 
           <Styled.AlertsSection>
-            <Styled.FiltersWrapper>
-              <label>
-                Início:
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-              </label>
-
-              <label>
-                Fim:
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
-              </label>
-
-              <label>
-                Câmera:
-                <select
-                  value={selectedCameraId}
-                  onChange={(e) => setSelectedCameraId(e.target.value)}
-                >
-                  <option value="">Todas</option>
-                  {cameras.map((camera) => (
-                    <option key={camera.id} value={camera.id}>
-                      {camera.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                Tipo:
-                <select
-                  value={selectedAlertType}
-                  onChange={(e) => setSelectedAlertType(e.target.value)}
-                >
-                  <option value="">Todos</option>
-                  <option value="Invasão">Invasão</option>
-                  <option value="EPI">EPI</option>
-                </select>
-              </label>
-
-              <Styled.ClearButton onClick={clearFilters}>
-                Limpar Filtros
-              </Styled.ClearButton>
-            </Styled.FiltersWrapper>
+            <AlertsFilterPanel
+              startDate={startDate}
+              endDate={endDate}
+              selectedCameraId={selectedCameraId}
+              selectedAlertType={selectedAlertType}
+              cameras={cameras}
+              onStartDateChange={setStartDate}
+              onEndDateChange={setEndDate}
+              onCameraChange={setSelectedCameraId}
+              onTypeChange={setSelectedAlertType}
+              onClearFilters={clearFilters}
+            />
 
             <h2>Alertas Recentes</h2>
             <AlertsList cameras={cameras} alerts={filteredAlerts} />
