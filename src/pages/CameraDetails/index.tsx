@@ -181,7 +181,10 @@ export default function CameraDetails() {
                 onMouseDown={isEditMode ? handleMouseDown : undefined}
                 onMouseMove={isEditMode ? handleMouseMove : undefined}
                 onMouseUp={isEditMode ? handleMouseUp : undefined}
-                style={{ pointerEvents: isEditMode ? "auto" : "none" }}
+                style={{
+                  pointerEvents: isEditMode ? "auto" : "none",
+                  cursor: "crosshair",
+                }}
               >
                 <Layer>
                   {rectangles.map((rect, i) => (
