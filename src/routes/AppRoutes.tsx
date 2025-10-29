@@ -5,7 +5,7 @@ import Analytics from "../pages/Analytics";
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/monitoring-panel">
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/camera/:id" element={<CameraDetails />} />
